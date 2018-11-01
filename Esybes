@@ -1,0 +1,42 @@
+Esybes:
+ 1. Vadybininkas
+ 2. Vairuotojas
+ 3. Automobilis
+ 4. Uzduotis
+ 5. Marsrutas
+
+1. Prie sistemos galima prisijungti kaip vadybininku ir atsijungti
+2. Prie sistemos galima prisijungti kaip vairuotoju ir atsijungti
+
+Vadybininkas
+1. turi vairuotoju sarasa
+2. gali priskirti uzduoti vairuotojui
+3. sukurti marsruta uzduociai
+4. priskirti automobili vairuotojui
+5. gali siusti zinutes vairuotojui
+6. mato vairuotojo informacija
+7. mato automobilio informacija
+8. mato uzduociu statusa
+9. gali siusti faila vairuotojui
+10. gali matyti automobiliu buvimo vieta zemelapyje
+
+Vairuotojas
+1. gali siusti zinute vadybininkui
+2. gali perduoti automobili kitam vairuotojui su vadybininko sutikimu
+3. mato jam priskirta uzduoti
+4. mato jam priskirta automobili
+5. mato savo vadybininko informacija
+6. gali siusti faila vadybininkui
+7. mato savo buvimo vieta zemelapyje
+
+Automobilis
+1. fiksuoja gps lokacija
+2. fiksuoja vairuotojo pasirinkta greiti
+3. skaiciuoja nuvaziuota atstuma
+4. turi kuro lygi
+5. skaiciuoja vidutines kuro sanaudas
+6. gali tureti priekaba
+
+Zinute
+1. galima zymeti kaip perskaityta
+2. galima istrinti
