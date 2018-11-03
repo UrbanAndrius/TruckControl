@@ -27,9 +27,9 @@ describe('Manager') do
 
   it 'should create route for task' do
     manager = Manager.new
-    task = manager.create_task(Route.new)
-    route = task.route
-    expect(route).not_to eql(nil)
+    manager.add_driver(Driver.new)
+    manager.create_task_with_route(Route.new, 0)
+    expect(manager.drivers[0].task).not_to eql(nil)
   end
 end
 

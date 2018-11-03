@@ -1,5 +1,6 @@
+# gives and manages tasks for drivers
 class Manager
-  attr_accessor :drivers
+  attr_reader :drivers
   def initialize
     @drivers = []
   end
@@ -12,10 +13,11 @@ class Manager
     drivers[driver_pos].task = task
   end
 
-  def create_task(route)
+  def create_task_with_route(route, driver_pos)
+    driver = drivers[driver_pos]
     task = Task.new
     task.route = route
-    task
+    driver.task = task
   end
 
   def assign_truck(truck, driver_pos)
