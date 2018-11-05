@@ -33,11 +33,11 @@ class Manager
   end
 
   def driver_info(driver_pos)
-    drivers[driver_pos].info
+    drivers[driver_pos].name
   end
 
   def truck_info(driver_pos)
-    drivers[driver_pos].truck.info
+    drivers[driver_pos].truck.plate_number
   end
 
   def tasks_status

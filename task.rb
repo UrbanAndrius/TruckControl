@@ -2,6 +2,7 @@
 class Task
   attr_reader :status
   def initialize
+    @title = 'no title'
     @status = 'new'
   end
 
@@ -11,5 +12,9 @@ class Task
 
   def status=(status)
     @status = status unless status.to_s.empty?
+  end
+
+  def title=(title)
+    @title = title unless status.to_s.empty?
   end
 end

@@ -1,11 +1,8 @@
 # driver uses truck to complete tasks
 class Truck
+  attr_reader :plate_number
   def initialize
-    @plate_number = ''
-  end
-
-  def info
-    "Number: #{@plate_number}"
+    @plate_number = 'XYZ'
   end
 
   def plate_number=(number)
