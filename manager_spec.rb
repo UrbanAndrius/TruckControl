@@ -8,6 +8,9 @@ require_relative 'task'
 require_relative 'route'
 require_relative 'truck'
 
+require_relative 'driver_spec'
+require_relative 'task_spec'
+
 describe('Manager') do
   it 'should see all drivers' do
     manager = Manager.new

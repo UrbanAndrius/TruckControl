@@ -1,6 +1,6 @@
 # information for driver what to do
 class Task
-  attr_reader :status
+  attr_reader :status, :route, :title
   def initialize
     @title = 'no title'
     @status = 'new'
@@ -15,6 +15,6 @@ class Task
   end
 
   def title=(title)
-    @title = title unless status.to_s.empty?
+    @title = title unless title.to_s.empty?
   end
 end

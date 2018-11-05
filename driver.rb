@@ -30,7 +30,7 @@ class Driver
 
   def messages_list
     result = ''
-    messages.each { |message| result += "\n" + message  }
+    messages.each { |message| result += "\n" + message }
     result
   end
 

@@ -1,0 +1,4 @@
+AllCops:
+  Exclude:
+  - 'ui.rb'
+  - 'spec/spec_helper.rb'
