@@ -41,4 +41,10 @@ describe('Driver') do
     driver.name = ''
     expect(driver.name).to eql('abc')
   end
+
+  it 'should return messages with new line at the end' do
+    driver = Driver.new
+    driver.add_message('abc')
+    expect(driver.messages_list).to start_with("\n")
+  end
 end

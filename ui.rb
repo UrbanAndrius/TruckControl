@@ -5,6 +5,8 @@ require_relative 'controller'
 
 Shoes.app do
 
+  @login_controller = Controller.new
+
   layout = stack do
     button 'start' do
       layout.clear {}
@@ -18,7 +20,7 @@ Shoes.app do
       user = edit_line
       password = edit_line
       button 'Login' do
-        if Controller.new.check_input(user.text, password.text)
+        if @login_controller.check_input(user.text, password.text)
           layout.clear {}
           login_manager(user.text)
         else
@@ -42,10 +44,10 @@ Shoes.app do
       user = edit_line
       password = edit_line
       button 'Create account' do
-        if Controller.new.check_input(user.text, password.text)
+        if @login_controller.check_exists(user.text)
           alert 'Username already exists'
         else
-          Controller.new.save_new_account(user.text, password.text)
+          @login_controller.save_new_account(user.text, password.text)
           layout.clear {}
           login
           alert 'Account created'
@@ -57,7 +59,7 @@ Shoes.app do
   def login_manager(username)
     layout = stack do
       para 'Drivers'
-      drivers = DriversManager.new.drivers(username)
+      drivers = @login_controller.load_driver_list(username)
       drivers.each do |driver|
         button "#{driver.name}" do
           layout.clear {}

@@ -2,8 +2,8 @@
 class Controller
   attr_reader :usernames, :passwords, :action
   def initialize
-    @usernames = ""
-    @passwords = ""
+    @usernames = "sdfsdf"
+    @passwords = "sdfsdf"
     @action = false
     @id = 856926
     @text_file = []
@@ -25,11 +25,28 @@ class Controller
       end
       return false
   end
+
+  def check_exists(username)
+    File.foreach("admin_acc.txt").with_index do |line|
+      arr = line.split(' ')
+      arr.each do |word|
+        @text_file += word.split
+      end
+      if @text_file.include? username
+        @usernames = username
+        return true
+      end
+      @text_file = []
+    end
+    return false
+  end
+
+
 #Save_new_account adds new admins to the list
   def save_new_account(username, password)
-      if !check_input(username, password)
+      if !check_exists(username)
         file = File.open("admin_acc.txt", "a")
-        new_driver_id()
+        new_driver_id
         file.write(@id.to_s + " " + username + " " + password + "\n")
       else
         puts "username and password is already taken"
@@ -38,14 +55,14 @@ class Controller
       file.close
   end
 #Load_account finds manager id by searching for username and password
-  def load_account(username, password)
+  def load_account(username)
     @text_file = []
     File.foreach("admin_acc.txt").with_index do |line|
       arr = line.split(' ')
       arr.each do |word|
         @text_file += word.split
       end
-      if @text_file.include? username and @text_file.include? password
+      if @text_file.include? username
         @id = @text_file[0]
       end
       @text_file = []
@@ -58,7 +75,7 @@ class Controller
 #If used properly in current UI sequence, UI should cast load_account and check_input, before calling save_new_driver
   def save_new_driver(username, password)
       file = File.open("drivers.txt", "a")
-      load_account(@usernames, @passwords)
+      load_account(@usernames)
       file.write(@id.to_s + " " + username + " " + password + "\n")
 
       file.close
@@ -67,7 +84,7 @@ class Controller
   def new_driver_id()
     File.foreach("admin_acc.txt").with_index do |line|
       @id = 100000 + rand(900000)
-      if !line.include? @id.to_s
+      unless line.include? @id.to_s
         return @id
       end
     end
@@ -88,12 +105,10 @@ class Controller
     File.rename("temp.txt", "drivers.txt")
   end
 
-  def load_driver_list(username, password)
-    if check_input(username, password)
-      load_account(username, password)
-    else
-      return false
-    end
+  def load_driver_list(username)
+
+    load_account(username)
+
     @text_file = []
     @driver_file = []
     File.foreach("drivers.txt").with_index do |line|
@@ -108,7 +123,6 @@ class Controller
       end
       @text_file = []
     end
-    puts @driver_file
+    @driver_file
   end
-
 end

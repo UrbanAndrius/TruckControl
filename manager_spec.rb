@@ -10,6 +10,7 @@ require_relative 'truck'
 
 require_relative 'driver_spec'
 require_relative 'task_spec'
+require_relative 'controller_spec'
 
 describe('Manager') do
   it 'should see all drivers' do
@@ -83,12 +84,23 @@ describe('Manager') do
     manager.assign_task(task, 1)
     expect(manager.tasks_status).to include('new', 'started')
   end
+end
 
+describe('Manager') do
   it 'should send files to driver' do
     manager = Manager.new
     manager.add_driver(Driver.new)
     manager.send_file('test_file.txt', 0)
     driver = manager.drivers[0]
     expect(driver.files[0]).to eql('test_file.txt')
+  end
+
+  it 'should have driver list' do
+    manager = Manager.new
+    driver1 = Driver.new
+    driver2 = Driver.new
+    manager.add_driver(driver1)
+    manager.add_driver(driver2)
+    expect(manager.drivers).to match_array([driver1, driver2])
   end
 end
