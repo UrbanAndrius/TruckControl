@@ -6,15 +6,22 @@ class Controller
     @passwords = ""
     @action = false
     @id = 856926
+    @text_file = []
+    @driver_file = []
   end
-#Check_input checks if there is already an admin with that exact name and username (Same name but not password or vice versa is accepted)
+#Check_input checks if there is already an admin with that exact name and username
   def check_input(username, password)
       File.foreach("admin_acc.txt").with_index do |line|
-        if line.include? username and line.include? password
+        arr = line.split(' ')
+        arr.each do |word|
+          @text_file += word.split
+        end
+        if @text_file.include? username and @text_file.include? password
           @usernames = username
           @passwords = password
           return true
         end
+        @text_file = []
       end
       return false
   end
@@ -22,24 +29,43 @@ class Controller
   def save_new_account(username, password)
       if !check_input(username, password)
         file = File.open("admin_acc.txt", "a")
-        file.write(username + " " + password + "\n")
+        new_driver_id()
+        file.write(@id.to_s + " " + username + " " + password + "\n")
       else
         puts "username and password is already taken"
       end
 
       file.close
   end
-#Save_new_driver adds generated id, username and surname  !!!(data stored can be changed to something else if it does not meet the need criteria given to coder)
-  def save_new_driver(username, surname)
+#Load_account finds manager id by searching for username and password
+  def load_account(username, password)
+    @text_file = []
+    File.foreach("admin_acc.txt").with_index do |line|
+      arr = line.split(' ')
+      arr.each do |word|
+        @text_file += word.split
+      end
+      if @text_file.include? username and @text_file.include? password
+        @id = @text_file[0]
+      end
+      @text_file = []
+    end
+
+  end
+
+#Save_new_driver adds manager id, username and surname
+#!!!IMPORTANT use it with functions load_account and check_input, as alone it wont work how it should, as it will use default data.
+#If used properly in current UI sequence, UI should cast load_account and check_input, before calling save_new_driver
+  def save_new_driver(username, password)
       file = File.open("drivers.txt", "a")
-      new_driver_id()
-      file.write(@id.to_s + " " + username + " " + surname + "\n")
+      load_account(@usernames, @passwords)
+      file.write(@id.to_s + " " + username + " " + password + "\n")
 
       file.close
   end
 #New_driver_id generates random number of 6 length and stores it in @id
   def new_driver_id()
-    File.foreach("drivers.txt").with_index do |line|
+    File.foreach("admin_acc.txt").with_index do |line|
       @id = 100000 + rand(900000)
       if !line.include? @id.to_s
         return @id
@@ -61,4 +87,28 @@ class Controller
     File.delete("drivers.txt")
     File.rename("temp.txt", "drivers.txt")
   end
+
+  def load_driver_list(username, password)
+    if check_input(username, password)
+      load_account(username, password)
+    else
+      return false
+    end
+    @text_file = []
+    @driver_file = []
+    File.foreach("drivers.txt").with_index do |line|
+      arr = line.split(' ')
+      arr.each do |word|
+        @text_file += word.split
+      end
+      #puts @text_file
+      #puts @id
+      if @text_file.include? @id
+        @driver_file += @text_file
+      end
+      @text_file = []
+    end
+    puts @driver_file
+  end
+
 end
