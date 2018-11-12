@@ -1,6 +1,10 @@
 # Controller checks input and saves new accounts
+require_relative 'driver'
+require_relative 'task'
+require_relative 'truck'
+
 class Controller
-  attr_reader :usernames, :passwords, :action
+  attr_reader :usernames, :passwords, :action, :driver, :truck, :task
   def initialize
     @usernames = "sdfsdf"
     @passwords = "sdfsdf"
@@ -8,6 +12,7 @@ class Controller
     @id = 856926
     @text_file = []
     @driver_file = []
+    @truck_plate = "abc852"
   end
 #Check_input checks if there is already an admin with that exact name and username
   def check_input(username, password)
@@ -64,10 +69,10 @@ class Controller
       end
       if @text_file.include? username
         @id = @text_file[0]
+        puts @id.to_s + ' This is my id'
       end
       @text_file = []
     end
-
   end
 
 #Save_new_driver adds manager id, username and surname
@@ -76,7 +81,8 @@ class Controller
   def save_new_driver(username, password)
       file = File.open("drivers.txt", "a")
       load_account(@usernames)
-      file.write(@id.to_s + " " + username + " " + password + "\n")
+      @truck_plate = new_truck_number.to_s
+      file.write(@id.to_s + " " + username + " " + password + " " + @truck_plate.to_s + "\n")
 
       file.close
   end
@@ -89,6 +95,16 @@ class Controller
       end
     end
   end
+#Generates truck number
+  def new_truck_number(length=3)
+      source1=("A".."Z").to_a
+      source2 = (0..9).to_a
+      key=""
+      length.times{ key += source1[rand(source1.size)].to_s }
+      length.times{ key += source2[rand(source2.size)].to_s }
+      return key
+    end
+
 #Give_task adds tasks to drivers at the end of the line
   def give_task(ids, task)
     file = File.open("temp.txt", "w")
@@ -106,9 +122,9 @@ class Controller
   end
 
   def load_driver_list(username)
-
     load_account(username)
-
+    i = 0
+    puts @id.to_s + ' This is my id'
     @text_file = []
     @driver_file = []
     File.foreach("drivers.txt").with_index do |line|
@@ -116,13 +132,22 @@ class Controller
       arr.each do |word|
         @text_file += word.split
       end
-      #puts @text_file
-      #puts @id
       if @text_file.include? @id
-        @driver_file += @text_file
+        @driver_file[i] = @text_file
+        i += 1
       end
       @text_file = []
     end
     @driver_file
+
   end
 end
+
+#control = Controller.new
+#driv = Driver.new
+#drivers = control.load_driver_list("pc")
+#i = 0
+#drivers.each do |driver|
+#  puts "#{drivers[i][1]}"
+#  i += 1
+#end
